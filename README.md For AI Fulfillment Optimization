@@ -1,0 +1,46 @@
+# AI Fulfillment Optimization (Simulated Project)
+
+This project represents a simplified version of an initiative I led to optimize fulfillment operations using AI and cloud technologies. While the actual project involved sensitive company data, this simulation mirrors the technical approach, decision-making process, and outcomes — recreated using dummy data and generic logic.
+
+## Project Summary
+
+In this simulation, I focused on identifying inefficiencies in a multi-node fulfillment network, using real-time data processing and centralized analytics. The goal was to increase on-time delivery performance and reduce operating costs through better visibility and automation.
+
+Key improvements (based on simulated metrics):
+
+- Increased on-time delivery rate from 65% to 95%
+- Reduced reporting errors by 80%
+- Enabled $4.5M+ in cost savings through smarter forecasting and fulfillment routing
+- Standardized over 25 KPIs across three simulated regions
+
+## What I Built
+
+- A Redshift-style SQL model to simulate fulfillment delay root cause analysis
+- Simulated AWS Lambda and S3 flow for near-real-time data ingestion
+- Backend logic for centralizing KPI definitions across fulfillment regions
+- Pseudo-dashboard descriptions built on Power BI and QuickSight (no visuals due to confidentiality)
+
+## Sample Analysis Logic
+
+Below is an example of how I would analyze late shipments by region using SQL logic.
+
+```sql
+WITH late AS (
+  SELECT region, COUNT(*) AS late_shipments
+  FROM shipments
+  WHERE status = 'LATE'
+  GROUP BY region
+),
+total AS (
+  SELECT region, COUNT(*) AS total_shipments
+  FROM shipments
+  GROUP BY region
+)
+SELECT
+  late.region,
+  late_shipments,
+  total_shipments,
+  ROUND(100.0 * late_shipments / total_shipments, 2) AS late_percentage
+FROM late
+JOIN total ON late.region = total.region
+ORDER BY late_percentage DESC;
